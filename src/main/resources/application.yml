@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: board
+
+  profiles:
+    active: local
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        highlight_sql: true
+        default_batch_fetch_size: 100
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  cache:
+    type: jcache
+    jcache:
+      config: classpath:ehcache.xml
+
+server:
+  port: 8080
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 200
+      min-spare: 10
+    accept-count: 100
+    max-connections: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.board: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
